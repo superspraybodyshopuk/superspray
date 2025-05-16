@@ -1,7 +1,6 @@
-
 import Hero from "@/components/Hero";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Award, Clock, Tool } from "lucide-react";
+import { User, Award, Clock, Wrench } from "lucide-react";
 
 const About = () => {
   const values = [
@@ -23,7 +22,7 @@ const About = () => {
     {
       title: "Expertise",
       description: "Continuous training ensures our team uses the latest techniques.",
-      icon: Tool,
+      icon: Wrench,
     },
   ];
 
