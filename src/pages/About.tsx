@@ -72,9 +72,9 @@ const About = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1627439572236-fd9842575800?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                src="https://images.unsplash.com/photo-1562142953-88e7e153eb0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
                 alt="SuperSpray BodyShop workshop" 
-                className="w-full h-[400px] object-cover"
+                className="w-full h-[400px] object-cover object-center"
               />
             </div>
           </div>
@@ -120,9 +120,9 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1599256871175-04151051f71f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                src="https://images.unsplash.com/photo-1543465077-db45d34b88a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
                 alt="Modern spray booth" 
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover object-center"
               />
               <div className="p-4">
                 <h3 className="font-bold text-lg">Modern Spray Booths</h3>
@@ -133,7 +133,7 @@ const About = () => {
               <img 
                 src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" 
                 alt="Diagnostic equipment" 
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover object-center"
               />
               <div className="p-4">
                 <h3 className="font-bold text-lg">Advanced Diagnostics</h3>
@@ -142,9 +142,9 @@ const About = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1571733318191-98d5ac4c7339?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                src="https://images.unsplash.com/photo-1602705847215-1867a52f58e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" 
                 alt="Welding equipment" 
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover object-center"
               />
               <div className="p-4">
                 <h3 className="font-bold text-lg">Restoration Workshop</h3>
@@ -171,7 +171,7 @@ const About = () => {
                 <img 
                   src={member.image} 
                   alt={member.name} 
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-cover object-center"
                 />
                 <div className="p-6">
                   <h3 className="font-bold text-xl mb-1">{member.name}</h3>
