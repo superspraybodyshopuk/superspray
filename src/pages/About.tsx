@@ -71,7 +71,7 @@ const About = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1562142953-88e7e153eb0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1470&q=80" 
                 alt="SuperSpray BodyShop workshop" 
                 className="w-full h-[400px] object-cover object-center"
               />
@@ -141,9 +141,9 @@ const About = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1602705847215-1867a52f58e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" 
-                alt="Welding equipment" 
-                className="w-full h-64 object-cover object-center"
+                src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80" 
+                alt="Restoration Workshop" 
+                className="w-full h-64 object-cover"
               />
               <div className="p-4">
                 <h3 className="font-bold text-lg">Restoration Workshop</h3>
@@ -166,11 +166,11 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg flex flex-col items-center">
                 <img 
                   src={member.image} 
                   alt={member.name} 
-                  className="w-full h-64 object-cover object-center"
+                  className="w-full h-64 object-cover object-center max-w-xs mx-auto"
                 />
                 <div className="p-6">
                   <h3 className="font-bold text-xl mb-1">{member.name}</h3>

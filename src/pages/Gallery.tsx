@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
