@@ -34,11 +34,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed w-full z-30 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-md py-2"
-          : "bg-transparent py-3"
-      }`}
+      className={`fixed w-full z-30 transition-all duration-300 bg-white shadow-md py-2`}
     >
       <div className="container-custom flex items-center justify-between">
         {/* Logo */}
@@ -58,7 +54,7 @@ const Navbar = () => {
               className={`font-medium transition-colors hover:text-brand-blue ${
                 location.pathname === link.href 
                   ? "text-brand-blue" 
-                  : `${isScrolled ? "text-gray-800" : "text-white text-shadow"}`
+                  : "text-gray-800"
               }`}
             >
               {link.name}
@@ -73,29 +69,40 @@ const Navbar = () => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
-            <X className={`h-6 w-6 ${isScrolled ? "text-gray-800" : "text-white text-shadow"}`} />
+            <X className="h-6 w-6 text-gray-800" />
           ) : (
-            <Menu className={`h-6 w-6 ${isScrolled ? "text-gray-800" : "text-white text-shadow"}`} />
+            <Menu className="h-6 w-6 text-gray-800" />
           )}
         </Button>
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden fixed inset-0 bg-brand-dark bg-opacity-95 z-0 flex items-center justify-center animate-fade-in">
-            <nav className="flex flex-col space-y-8 items-center">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`text-xl font-medium text-white hover:text-brand-blue transition-colors ${
-                    location.pathname === link.href ? "text-brand-blue" : ""
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          <>
+            {/* Overlay below navbar, but menu content below navbar as well */}
+            <div className="md:hidden fixed inset-0 bg-white z-20" aria-hidden="true"></div>
+            <div className="md:hidden fixed left-0 right-0 top-16 bottom-0 bg-white z-30 flex flex-col items-center animate-fade-in">
+              <button
+                className="fixed top-5 right-5 z-40 text-gray-800 p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <X className="h-7 w-7" />
+              </button>
+              <nav className="flex flex-col space-y-8 items-center mt-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className={`text-xl font-medium text-gray-900 hover:text-brand-blue transition-colors ${
+                      location.pathname === link.href ? "text-brand-blue" : ""
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </>
         )}
       </div>
     </header>
