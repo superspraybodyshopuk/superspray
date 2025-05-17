@@ -1,4 +1,3 @@
-
 import Hero from "@/components/Hero";
 import { Card, CardContent } from "@/components/ui/card";
 import { User, Award, Clock, Wrench } from "lucide-react";
@@ -51,7 +50,7 @@ const About = () => {
   return (
     <>
       <Hero
-        title="About SuperSpray BodyShop"
+        title="About SuperSpray"
         subtitle="Excellence in automotive restoration since 1998"
       />
 

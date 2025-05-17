@@ -1,4 +1,3 @@
-
 import Hero from "@/components/Hero";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -80,16 +79,18 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
+              <Card key={index} className="hover:shadow-lg transition-shadow flex flex-col">
+                <CardContent className="p-6 flex flex-col flex-1">
                   <div className="text-4xl mb-4">{service.icon}</div>
                   <h3 className="heading-3 mb-2">{service.title}</h3>
                   <p className="text-gray-600 mb-4">{service.description}</p>
-                  <Button asChild variant="link" className="p-0">
-                    <Link to="/contact" className="flex items-center text-brand-blue">
-                      Learn more <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                  <div className="mt-auto">
+                    <Button asChild variant="link" className="p-0">
+                      <Link to="/contact" className="flex items-center text-brand-blue">
+                        Learn more <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}

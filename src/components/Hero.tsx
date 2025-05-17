@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -24,7 +23,7 @@ const Hero = ({ title, subtitle, showButtons = false, isHomepage = false }: Hero
                   Get a Quote
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-brand-dark font-semibold border-2">
+              <Button asChild size="lg" variant="outline" className="border-white text-brand-dark hover:bg-white hover:text-brand-dark font-semibold border-2">
                 <Link to="/gallery">
                   View Our Work
                 </Link>
