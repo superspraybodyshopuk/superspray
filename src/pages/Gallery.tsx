@@ -29,14 +29,14 @@ const sampleGallery: GalleryItem[] = [
   },
   {
     id: "3",
-    imageUrl: "https://images.unsplash.com/photo-1544752633-607271e50b3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
     title: "Custom Paint Job",
     category: "paintwork",
     description: "Custom metallic blue paint with clear coat finish."
   },
   {
     id: "4",
-    imageUrl: "https://images.unsplash.com/photo-1637610904926-babd267c677c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1444&q=80",
     title: "Classic Jaguar E-Type",
     category: "restoration",
     description: "Complete restoration of a 1964 Jaguar E-Type, bringing it back to showroom condition."
@@ -169,9 +169,9 @@ const Gallery = () => {
               <div className="bg-white p-2 shadow-lg rounded-lg">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1570933114508-66fbb2a6e10b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
+                    src="https://images.unsplash.com/photo-1580274455191-1c62238fa333?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
                     alt="Before restoration"
-                    className="rounded w-full h-72 object-cover"
+                    className="rounded w-full h-72 object-cover object-center"
                   />
                   <div className="absolute bottom-0 left-0 bg-brand-dark text-white py-2 px-4 rounded-tr">
                     Before
@@ -181,7 +181,7 @@ const Gallery = () => {
                   <img
                     src="https://images.unsplash.com/photo-1581112606025-6e91da971d20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
                     alt="After restoration"
-                    className="rounded w-full h-72 object-cover"
+                    className="rounded w-full h-72 object-cover object-center"
                   />
                   <div className="absolute bottom-0 left-0 bg-brand-blue text-white py-2 px-4 rounded-tr">
                     After
@@ -200,9 +200,9 @@ const Gallery = () => {
               <div className="bg-white p-2 shadow-lg rounded-lg">
                 <div className="relative">
                   <img
-                    src="https://images.unsplash.com/photo-1553616294-3d0f1ee97109?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    src="https://images.unsplash.com/photo-1634437045339-1cbfbba70e38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1325&q=80"
                     alt="Before repair"
-                    className="rounded w-full h-72 object-cover"
+                    className="rounded w-full h-72 object-cover object-center"
                   />
                   <div className="absolute bottom-0 left-0 bg-brand-dark text-white py-2 px-4 rounded-tr">
                     Before
@@ -212,7 +212,7 @@ const Gallery = () => {
                   <img
                     src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
                     alt="After repair"
-                    className="rounded w-full h-72 object-cover"
+                    className="rounded w-full h-72 object-cover object-center"
                   />
                   <div className="absolute bottom-0 left-0 bg-brand-blue text-white py-2 px-4 rounded-tr">
                     After
