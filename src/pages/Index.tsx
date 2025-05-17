@@ -115,7 +115,7 @@ const Index = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1562604790-8b8d92bf6b1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
                 alt="SuperSpray BodyShop workshop" 
                 className="w-full h-[400px] object-cover"
               />
@@ -182,7 +182,7 @@ const Index = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button asChild className="bg-brand-dark hover:bg-opacity-80">
+            <Button asChild className="bg-brand-dark hover:bg-opacity-80 text-white font-semibold">
               <Link to="/reviews">View All Reviews</Link>
             </Button>
           </div>
@@ -196,7 +196,7 @@ const Index = () => {
           <p className="text-lg mb-8 max-w-2xl mx-auto">
             Contact us today for a free consultation and quote. Let us help you bring your car back to its former glory.
           </p>
-          <Button asChild size="lg" className="bg-brand-blue hover:bg-opacity-80">
+          <Button asChild size="lg" className="bg-brand-blue hover:bg-opacity-80 text-white font-semibold">
             <Link to="/contact">Get in Touch</Link>
           </Button>
         </div>
