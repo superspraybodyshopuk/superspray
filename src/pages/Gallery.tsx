@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase } from "@/integrations/supabase/client";
 
 interface GalleryItem {
   id: string;
@@ -10,73 +12,38 @@ interface GalleryItem {
   description: string;
 }
 
-// Sample gallery data - this would come from Supabase in the real implementation
-const sampleGallery: GalleryItem[] = [
-  {
-    id: "1",
-    imageUrl: "https://images.unsplash.com/photo-1603145733146-ae562a55031e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
-    title: "Classic Mustang Restoration",
-    category: "restoration",
-    description: "Full body restoration of a 1967 Ford Mustang, including custom paintwork."
-  },
-  {
-    id: "2",
-    imageUrl: "https://images.unsplash.com/photo-1611566026373-c6c8da0ea861?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-    title: "Accident Repair - BMW",
-    category: "repair",
-    description: "Major collision damage repair and respray on a BMW 3 Series."
-  },
-  {
-    id: "3",
-    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    title: "Custom Paint Job",
-    category: "paintwork",
-    description: "Custom metallic blue paint with clear coat finish."
-  },
-  {
-    id: "4",
-    imageUrl: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1444&q=80",
-    title: "Classic Jaguar E-Type",
-    category: "restoration",
-    description: "Complete restoration of a 1964 Jaguar E-Type, bringing it back to showroom condition."
-  },
-  {
-    id: "5",
-    imageUrl: "https://images.unsplash.com/photo-1600259828526-77f8617ceec9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80",
-    title: "Range Rover Dent Repair",
-    category: "repair",
-    description: "PDR (Paintless Dent Repair) on a Range Rover door panel."
-  },
-  {
-    id: "6",
-    imageUrl: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1583&q=80",
-    title: "Aston Martin Respray",
-    category: "paintwork",
-    description: "Full respray in original factory color on an Aston Martin DB9."
-  },
-];
-
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // In a real implementation, this would fetch from Supabase
-    const fetchGallery = async () => {
-      try {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setGalleryItems(sampleGallery);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching gallery:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchGallery();
+    fetchGalleryItems();
   }, []);
+
+  const fetchGalleryItems = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*');
+      
+      if (error) throw error;
+      
+      const formattedItems = data.map(item => ({
+        id: item.id,
+        title: item.title,
+        description: item.description || "",
+        category: item.category,
+        imageUrl: supabase.storage.from('gallery').getPublicUrl(item.image_url).data.publicUrl
+      }));
+      
+      setGalleryItems(formattedItems);
+    } catch (error: any) {
+      console.error("Error fetching gallery:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredItems = filter === "all"
     ? galleryItems
@@ -139,21 +106,21 @@ const Gallery = () => {
             </TabsContent>
 
             <TabsContent value="restoration" className="mt-0">
-              {/* Same structure as "all" but with filtered items */}
+              {/* Same component structure will be rendered with filtered data */}
             </TabsContent>
 
             <TabsContent value="repair" className="mt-0">
-              {/* Same structure as "all" but with filtered items */}
+              {/* Same component structure will be rendered with filtered data */}
             </TabsContent>
 
             <TabsContent value="paintwork" className="mt-0">
-              {/* Same structure as "all" but with filtered items */}
+              {/* Same component structure will be rendered with filtered data */}
             </TabsContent>
           </Tabs>
         </div>
       </section>
 
-      {/* Before/After Showcase */}
+      {/* Before/After Showcase - Static content kept the same */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-12">

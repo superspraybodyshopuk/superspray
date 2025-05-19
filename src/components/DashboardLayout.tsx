@@ -3,8 +3,9 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Menu, Home, Image, Star, LogOut } from "lucide-react";
+import { Home, Image, Star, LogOut } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const DashboardLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -12,21 +13,35 @@ const DashboardLayout = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('supabase.auth.token');
-      setIsAuthenticated(!!token);
-    };
-    
-    checkAuth();
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setIsAuthenticated(!!session);
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('supabase.auth.token');
-    setIsAuthenticated(false);
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out.",
-    });
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (isAuthenticated === false) {
@@ -53,7 +68,7 @@ const DashboardLayout = () => {
             className="md:hidden"
             onClick={() => setIsSidebarOpen(false)}
           >
-            <Menu className="h-5 w-5" />
+            <span className="sr-only">Close menu</span>
           </Button>
         </div>
         <div className="py-4">
@@ -100,7 +115,7 @@ const DashboardLayout = () => {
               size="icon"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
-              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle menu</span>
             </Button>
             <h1 className="text-lg font-semibold">SuperSpray Admin</h1>
           </div>

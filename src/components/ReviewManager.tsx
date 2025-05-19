@@ -1,74 +1,74 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Star, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Review {
   id: string;
   name: string;
   vehicle: string;
   rating: number;
-  reviewText: string;
+  review_text: string;
   date: string;
   approved: boolean;
+  images?: string[] | null;
 }
 
-// Sample review data - this would come from Supabase in the real implementation
-const sampleReviews: Review[] = [
-  {
-    id: "1",
-    name: "John Smith",
-    vehicle: "Jaguar E-Type",
-    rating: 5,
-    reviewText: "The restoration work SuperSpray did on my E-Type was exceptional. Their attention to detail and craftsmanship is unmatched. I couldn't be happier with the results.",
-    date: "2023-10-15",
-    approved: true
-  },
-  {
-    id: "2",
-    name: "Sarah Johnson",
-    vehicle: "BMW 3 Series",
-    rating: 5,
-    reviewText: "After a nasty accident, I thought my car was beyond saving. SuperSpray worked magic and it looks brand new again. The team was professional, kept me updated throughout the process, and delivered ahead of schedule.",
-    date: "2023-09-28",
-    approved: true
-  },
-  {
-    id: "3",
-    name: "Michael Davies",
-    vehicle: "Ford Mustang",
-    rating: 5,
-    reviewText: "The team's passion for classic cars is evident in their work. My Mustang has never looked better. They understood exactly what I wanted and went above and beyond to deliver it.",
-    date: "2023-09-20",
-    approved: true
-  },
-  {
-    id: "4",
-    name: "Emily Wilson",
-    vehicle: "Audi Q5",
-    rating: 4,
-    reviewText: "Very satisfied with the quality of work. The repair was completed on time and the finish is perfect. Would recommend to friends and family.",
-    date: "2023-08-15",
-    approved: false
-  },
-];
-
 const ReviewManager = () => {
-  const [reviews, setReviews] = useState<Review[]>(sampleReviews);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      // Format the reviews for the component
+      const formattedReviews = data.map(review => ({
+        ...review,
+        date: new Date(review.created_at).toISOString()
+      }));
+
+      setReviews(formattedReviews);
+    } catch (error: any) {
+      console.error('Error fetching reviews:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load reviews. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleApproval = async (id: string) => {
     setLoading(true);
     try {
-      // In a real implementation, this would update the review in Supabase
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const reviewToUpdate = reviews.find(review => review.id === id);
+      if (!reviewToUpdate) return;
+
+      const { error } = await supabase
+        .from('reviews')
+        .update({ approved: !reviewToUpdate.approved })
+        .eq('id', id);
+
+      if (error) throw error;
       
       // Update local state
       setReviews(reviews.map(review => 
@@ -79,10 +79,10 @@ const ReviewManager = () => {
         title: "Status Updated",
         description: "The review status has been updated successfully.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Update failed",
-        description: "There was an error updating the review.",
+        description: error.message || "There was an error updating the review.",
         variant: "destructive",
       });
     } finally {
@@ -93,9 +93,12 @@ const ReviewManager = () => {
   const deleteReview = async (id: string) => {
     setLoading(true);
     try {
-      // In a real implementation, this would delete the review from Supabase
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const { error } = await supabase
+        .from('reviews')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
       
       // Update local state
       setReviews(reviews.filter(review => review.id !== id));
@@ -105,10 +108,10 @@ const ReviewManager = () => {
         title: "Review Deleted",
         description: "The review has been deleted successfully.",
       });
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Delete failed",
-        description: "There was an error deleting the review.",
+        description: error.message || "There was an error deleting the review.",
         variant: "destructive",
       });
     } finally {
@@ -121,144 +124,170 @@ const ReviewManager = () => {
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4">Manage Reviews</h3>
         
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Customer
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rating
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {reviews.map((review) => (
-                <tr key={review.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{review.name}</div>
-                    <div className="text-sm text-gray-500">{review.vehicle}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`h-4 w-4 ${
-                            i < review.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(review.date).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <Switch
-                        checked={review.approved}
-                        onCheckedChange={() => toggleApproval(review.id)}
-                        disabled={loading}
-                      />
-                      <span className="ml-2 text-sm text-gray-500">
-                        {review.approved ? "Approved" : "Hidden"}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          className="text-brand-blue hover:text-brand-blue hover:bg-blue-50"
-                          onClick={() => setSelectedReview(review)}
-                        >
-                          View
-                        </Button>
-                      </DialogTrigger>
-                      {selectedReview && (
-                        <DialogContent className="sm:max-w-[500px]">
-                          <DialogHeader>
-                            <DialogTitle>Review Details</DialogTitle>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <div>
-                              <h4 className="font-medium">Customer</h4>
-                              <p>{selectedReview.name}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium">Vehicle</h4>
-                              <p>{selectedReview.vehicle}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium">Rating</h4>
-                              <div className="flex mt-1">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    className={`h-5 w-5 ${
-                                      i < selectedReview.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            <div>
-                              <h4 className="font-medium">Review</h4>
-                              <p className="mt-1 text-gray-600">{selectedReview.reviewText}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium">Date</h4>
-                              <p>{new Date(selectedReview.date).toLocaleString()}</p>
-                            </div>
-                            <div>
-                              <h4 className="font-medium">Status</h4>
-                              <div className="flex items-center mt-1">
-                                <Switch
-                                  checked={selectedReview.approved}
-                                  onCheckedChange={() => toggleApproval(selectedReview.id)}
-                                  disabled={loading}
-                                />
-                                <span className="ml-2">
-                                  {selectedReview.approved ? "Approved" : "Hidden"}
-                                </span>
-                              </div>
-                            </div>
-                            <div className="flex justify-between mt-6">
-                              <Button
-                                variant="destructive"
-                                onClick={() => deleteReview(selectedReview.id)}
-                                disabled={loading}
-                                className="flex items-center"
-                              >
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
-                              </Button>
-                              <DialogClose asChild>
-                                <Button variant="outline">Close</Button>
-                              </DialogClose>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      )}
-                    </Dialog>
-                  </td>
+        {loading && reviews.length === 0 ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
+          </div>
+        ) : reviews.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">No reviews available.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Customer
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Rating
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {reviews.map((review) => (
+                  <tr key={review.id}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">{review.name}</div>
+                      <div className="text-sm text-gray-500">{review.vehicle}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              i < review.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(review.date).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <Switch
+                          checked={review.approved}
+                          onCheckedChange={() => toggleApproval(review.id)}
+                          disabled={loading}
+                        />
+                        <span className="ml-2 text-sm text-gray-500">
+                          {review.approved ? "Approved" : "Hidden"}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button 
+                            variant="ghost" 
+                            className="text-brand-blue hover:text-brand-blue hover:bg-blue-50"
+                            onClick={() => setSelectedReview(review)}
+                          >
+                            View
+                          </Button>
+                        </DialogTrigger>
+                        {selectedReview && selectedReview.id === review.id && (
+                          <DialogContent className="sm:max-w-[500px]">
+                            <DialogHeader>
+                              <DialogTitle>Review Details</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4">
+                              <div>
+                                <h4 className="font-medium">Customer</h4>
+                                <p>{selectedReview.name}</p>
+                              </div>
+                              <div>
+                                <h4 className="font-medium">Vehicle</h4>
+                                <p>{selectedReview.vehicle}</p>
+                              </div>
+                              <div>
+                                <h4 className="font-medium">Rating</h4>
+                                <div className="flex mt-1">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`h-5 w-5 ${
+                                        i < selectedReview.rating ? "text-yellow-500 fill-yellow-500" : "text-gray-300"
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                              <div>
+                                <h4 className="font-medium">Review</h4>
+                                <p className="mt-1 text-gray-600">{selectedReview.review_text}</p>
+                              </div>
+                              <div>
+                                <h4 className="font-medium">Date</h4>
+                                <p>{new Date(selectedReview.date).toLocaleString()}</p>
+                              </div>
+                              {selectedReview.images && selectedReview.images.length > 0 && (
+                                <div>
+                                  <h4 className="font-medium">Images</h4>
+                                  <div className="grid grid-cols-2 gap-2 mt-2">
+                                    {selectedReview.images.map((imageUrl, index) => (
+                                      <div key={index} className="relative">
+                                        <img 
+                                          src={`${supabase.storage.from('reviews').getPublicUrl(imageUrl).data.publicUrl}`}
+                                          alt={`Review image ${index + 1}`}
+                                          className="w-full h-32 object-cover rounded"
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              <div>
+                                <h4 className="font-medium">Status</h4>
+                                <div className="flex items-center mt-1">
+                                  <Switch
+                                    checked={selectedReview.approved}
+                                    onCheckedChange={() => toggleApproval(selectedReview.id)}
+                                    disabled={loading}
+                                  />
+                                  <span className="ml-2">
+                                    {selectedReview.approved ? "Approved" : "Hidden"}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between mt-6">
+                                <Button
+                                  variant="destructive"
+                                  onClick={() => deleteReview(selectedReview.id)}
+                                  disabled={loading}
+                                  className="flex items-center"
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </Button>
+                                <DialogClose asChild>
+                                  <Button variant="outline">Close</Button>
+                                </DialogClose>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        )}
+                      </Dialog>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

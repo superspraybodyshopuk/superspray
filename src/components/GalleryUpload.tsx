@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { v4 as uuidv4 } from 'uuid';
 
 const GalleryUpload = () => {
   const [title, setTitle] = useState("");
@@ -52,9 +54,28 @@ const GalleryUpload = () => {
     setLoading(true);
 
     try {
-      // In a real implementation, this would upload to Supabase storage
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // 1. Upload file to Supabase Storage
+      const fileExt = selectedFile.name.split('.').pop();
+      const fileName = `${uuidv4()}.${fileExt}`;
+      const filePath = `${fileName}`;
+      
+      const { error: uploadError, data } = await supabase.storage
+        .from('gallery')
+        .upload(filePath, selectedFile);
+        
+      if (uploadError) throw uploadError;
+      
+      // 2. Create record in gallery table
+      const { error: insertError } = await supabase
+        .from('gallery')
+        .insert({
+          title,
+          category,
+          description,
+          image_url: `${filePath}`
+        });
+        
+      if (insertError) throw insertError;
       
       toast({
         title: "Upload successful",
@@ -67,10 +88,10 @@ const GalleryUpload = () => {
       setDescription("");
       setSelectedFile(null);
       setPreview(null);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Upload failed",
-        description: "There was an error uploading the image. Please try again.",
+        description: error.message || "There was an error uploading the image. Please try again.",
         variant: "destructive",
       });
     } finally {

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GalleryUpload from "@/components/GalleryUpload";
+import GalleryManager from "@/components/GalleryManager";
 import ReviewManager from "@/components/ReviewManager";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -22,24 +23,7 @@ const Dashboard = () => {
         <TabsContent value="gallery" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2">
-              <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4">Gallery Images</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* This would be populated with actual gallery images from Supabase in a real implementation */}
-                    {[1, 2, 3, 4].map((item) => (
-                      <div key={item} className="relative group">
-                        <div className="bg-gray-200 aspect-square rounded-md flex items-center justify-center">
-                          <span className="text-gray-500">Gallery Image {item}</span>
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
-                          <button className="bg-red-500 text-white px-3 py-1 rounded-md text-sm">Remove</button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+              <GalleryManager />
             </div>
             <div>
               <GalleryUpload />
