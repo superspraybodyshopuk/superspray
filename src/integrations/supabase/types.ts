@@ -37,6 +37,7 @@ export type Database = {
           description: string | null
           id: string
           image_url: string
+          service_id: string | null
           title: string
           updated_at: string
         }
@@ -46,6 +47,7 @@ export type Database = {
           description?: string | null
           id?: string
           image_url: string
+          service_id?: string | null
           title: string
           updated_at?: string
         }
@@ -55,10 +57,19 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string
+          service_id?: string | null
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "gallery_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       reviews: {
         Row: {
@@ -96,6 +107,30 @@ export type Database = {
           review_text?: string
           updated_at?: string
           vehicle?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
         }
         Relationships: []
       }

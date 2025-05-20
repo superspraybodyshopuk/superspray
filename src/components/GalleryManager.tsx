@@ -6,6 +6,7 @@ import { Trash2, Edit } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GalleryItem {
   id: string;
@@ -14,27 +15,67 @@ interface GalleryItem {
   category: string;
   image_url: string;
   created_at: string;
+  service_id: string | null;
+  service_name?: string;
+}
+
+interface Service {
+  id: string;
+  name: string;
+  slug: string;
 }
 
 const GalleryManager = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
+    fetchServices();
     fetchGalleryItems();
   }, []);
+
+  const fetchServices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('services')
+        .select('id, name, slug')
+        .order('name');
+      
+      if (error) throw error;
+      setServices(data || []);
+    } catch (error: any) {
+      console.error('Error fetching services:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load services. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const fetchGalleryItems = async () => {
     try {
       const { data, error } = await supabase
         .from('gallery')
-        .select('*')
+        .select(`
+          *,
+          services:service_id (
+            name
+          )
+        `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setGalleryItems(data);
+      
+      const formattedItems = data.map(item => ({
+        ...item,
+        service_name: item.services ? item.services.name : null
+      }));
+      
+      setGalleryItems(formattedItems);
     } catch (error: any) {
       console.error('Error fetching gallery items:', error);
       toast({
@@ -111,7 +152,7 @@ const GalleryManager = () => {
                 </div>
                 <div className="p-2">
                   <h4 className="font-medium truncate">{item.title}</h4>
-                  <p className="text-sm text-gray-500 capitalize">{item.category}</p>
+                  <p className="text-sm text-gray-500 capitalize">{item.service_name || item.category}</p>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity rounded-md">
                   <Dialog>
@@ -159,6 +200,10 @@ const GalleryManager = () => {
                 <div>
                   <h4 className="font-medium">Title</h4>
                   <p>{selectedItem.title}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium">Service</h4>
+                  <p className="capitalize">{selectedItem.service_name || "None"}</p>
                 </div>
                 <div>
                   <h4 className="font-medium">Category</h4>

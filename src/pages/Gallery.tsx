@@ -10,22 +10,52 @@ interface GalleryItem {
   title: string;
   category: string;
   description: string;
+  service: string | null;
+}
+
+interface Service {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
 }
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchServices();
     fetchGalleryItems();
   }, []);
+
+  const fetchServices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('name');
+      
+      if (error) throw error;
+      setServices(data || []);
+    } catch (error: any) {
+      console.error("Error fetching services:", error);
+    }
+  };
 
   const fetchGalleryItems = async () => {
     try {
       const { data, error } = await supabase
         .from('gallery')
-        .select('*');
+        .select(`
+          *,
+          services:service_id (
+            name,
+            slug
+          )
+        `);
       
       if (error) throw error;
       
@@ -34,7 +64,10 @@ const Gallery = () => {
         title: item.title,
         description: item.description || "",
         category: item.category,
-        imageUrl: supabase.storage.from('gallery').getPublicUrl(item.image_url).data.publicUrl
+        service: item.services ? item.services.slug : null,
+        imageUrl: item.image_url.startsWith('http') 
+          ? item.image_url 
+          : supabase.storage.from('gallery').getPublicUrl(item.image_url).data.publicUrl
       }));
       
       setGalleryItems(formattedItems);
@@ -47,7 +80,7 @@ const Gallery = () => {
 
   const filteredItems = filter === "all"
     ? galleryItems
-    : galleryItems.filter(item => item.category === filter);
+    : galleryItems.filter(item => item.service === filter);
 
   return (
     <>
@@ -66,56 +99,30 @@ const Gallery = () => {
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <div className="flex justify-center mb-8">
-              <TabsList>
-                <TabsTrigger value="all" onClick={() => setFilter("all")}>All</TabsTrigger>
-                <TabsTrigger value="restoration" onClick={() => setFilter("restoration")}>Restorations</TabsTrigger>
-                <TabsTrigger value="repair" onClick={() => setFilter("repair")}>Repairs</TabsTrigger>
-                <TabsTrigger value="paintwork" onClick={() => setFilter("paintwork")}>Paintwork</TabsTrigger>
+            <div className="flex justify-center mb-8 overflow-x-auto">
+              <TabsList className="flex-wrap">
+                <TabsTrigger value="all" onClick={() => setFilter("all")}>All Work</TabsTrigger>
+                {services.map(service => (
+                  <TabsTrigger 
+                    key={service.id}
+                    value={service.slug} 
+                    onClick={() => setFilter(service.slug)}
+                  >
+                    {service.name}
+                  </TabsTrigger>
+                ))}
               </TabsList>
             </div>
 
             <TabsContent value="all" className="mt-0">
-              {loading ? (
-                <div className="flex justify-center items-center py-12">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
-                </div>
-              ) : filteredItems.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredItems.map((item) => (
-                    <div key={item.id} className="rounded-lg overflow-hidden shadow-lg group">
-                      <div className="relative overflow-hidden h-72">
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                        <p className="text-gray-600">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-gray-500">No gallery items found in this category.</p>
-                </div>
-              )}
+              {renderGalleryItems(filteredItems, loading)}
             </TabsContent>
 
-            <TabsContent value="restoration" className="mt-0">
-              {/* Same component structure will be rendered with filtered data */}
-            </TabsContent>
-
-            <TabsContent value="repair" className="mt-0">
-              {/* Same component structure will be rendered with filtered data */}
-            </TabsContent>
-
-            <TabsContent value="paintwork" className="mt-0">
-              {/* Same component structure will be rendered with filtered data */}
-            </TabsContent>
+            {services.map(service => (
+              <TabsContent key={service.id} value={service.slug} className="mt-0">
+                {renderGalleryItems(filteredItems, loading)}
+              </TabsContent>
+            ))}
           </Tabs>
         </div>
       </section>
@@ -196,6 +203,45 @@ const Gallery = () => {
         </div>
       </section>
     </>
+  );
+};
+
+// Helper function to render gallery items
+const renderGalleryItems = (items: GalleryItem[], loading: boolean) => {
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
+      </div>
+    );
+  }
+  
+  if (items.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">No gallery items found in this category.</p>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {items.map((item) => (
+        <div key={item.id} className="rounded-lg overflow-hidden shadow-lg group">
+          <div className="relative overflow-hidden h-72">
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+          <div className="p-4">
+            <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+            <p className="text-gray-600">{item.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
