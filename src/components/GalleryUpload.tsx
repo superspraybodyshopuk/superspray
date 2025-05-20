@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,9 +13,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
+interface Service {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+}
+
 const GalleryUpload = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
+  const [serviceId, setServiceId] = useState("");
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -25,7 +33,31 @@ const GalleryUpload = () => {
   const [afterFile, setAfterFile] = useState<File | null>(null);
   const [beforePreview, setBeforePreview] = useState<string | null>(null);
   const [afterPreview, setAfterPreview] = useState<string | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('name');
+      
+      if (error) throw error;
+      setServices(data || []);
+    } catch (error: any) {
+      console.error("Error fetching services:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load services. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -99,7 +131,7 @@ const GalleryUpload = () => {
     e.preventDefault();
     
     // Validation for standard upload
-    if (!isBeforeAfter && (!title || !category || !description || !selectedFile)) {
+    if (!isBeforeAfter && (!title || !serviceId || !description || !selectedFile)) {
       toast({
         title: "Error",
         description: "Please complete all required fields and upload an image.",
@@ -109,7 +141,7 @@ const GalleryUpload = () => {
     }
 
     // Validation for before/after upload
-    if (isBeforeAfter && (!title || !category || !description || !beforeFile || !afterFile)) {
+    if (isBeforeAfter && (!title || !serviceId || !description || !beforeFile || !afterFile)) {
       toast({
         title: "Error",
         description: "Please complete all required fields and upload both before and after images.",
@@ -173,6 +205,7 @@ const GalleryUpload = () => {
         .insert({
           title,
           category,
+          service_id: serviceId,
           description,
           image_url: imageUrl || (afterImageUrl || ''), // Use after image as main image for before/after
           is_before_after: isBeforeAfter,
@@ -190,6 +223,7 @@ const GalleryUpload = () => {
       // Reset form
       setTitle("");
       setCategory("");
+      setServiceId("");
       setDescription("");
       setSelectedFile(null);
       setPreview(null);
@@ -213,7 +247,7 @@ const GalleryUpload = () => {
     <Card className="shadow-md">
       <CardContent className="p-6">
         <h3 className="text-xl font-bold mb-4">Add Gallery Image</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto">
           <div>
             <Label htmlFor="title">Title *</Label>
             <Input
@@ -223,6 +257,26 @@ const GalleryUpload = () => {
               placeholder="e.g. Classic Mustang Restoration"
               required
             />
+          </div>
+          
+          <div>
+            <Label htmlFor="service">Service *</Label>
+            <Select 
+              onValueChange={setServiceId}
+              value={serviceId}
+              required
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a service" />
+              </SelectTrigger>
+              <SelectContent>
+                {services.map((service) => (
+                  <SelectItem key={service.id} value={service.id}>
+                    {service.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           
           <div>

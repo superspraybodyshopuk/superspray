@@ -80,8 +80,8 @@ const Reviews = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* Left Column: Review Form - stays in position */}
-            <div className="md:sticky md:top-24 md:self-start">
+            {/* Left Column: Review Form - stays in position but scrollable */}
+            <div className="md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-150px)] md:overflow-y-auto">
               <ReviewForm />
             </div>
             

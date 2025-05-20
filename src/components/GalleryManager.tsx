@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, Edit } from "lucide-react";
+import { Trash2, Edit, Compare } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +17,9 @@ interface GalleryItem {
   created_at: string;
   service_id: string | null;
   service_name?: string;
+  is_before_after?: boolean;
+  before_image_url?: string | null;
+  after_image_url?: string | null;
 }
 
 interface Service {
@@ -88,16 +91,28 @@ const GalleryManager = () => {
     }
   };
 
-  const deleteGalleryItem = async (id: string, imageUrl: string) => {
+  const deleteGalleryItem = async (id: string, item: GalleryItem) => {
     setLoading(true);
     try {
-      // Delete the image from storage
-      const { error: storageError } = await supabase
-        .storage
-        .from('gallery')
-        .remove([imageUrl]);
+      // Delete all associated images from storage
+      const filesToDelete = [item.image_url];
+      
+      if (item.is_before_after) {
+        if (item.before_image_url) filesToDelete.push(item.before_image_url);
+        if (item.after_image_url) filesToDelete.push(item.after_image_url);
+      }
+      
+      // Delete all images
+      for (const fileUrl of filesToDelete) {
+        if (fileUrl) {
+          const { error: storageError } = await supabase
+            .storage
+            .from('gallery')
+            .remove([fileUrl]);
 
-      if (storageError) throw storageError;
+          if (storageError) throw storageError;
+        }
+      }
 
       // Delete the database record
       const { error: dbError } = await supabase
@@ -149,6 +164,11 @@ const GalleryManager = () => {
                     alt={item.title}
                     className="w-full h-full object-cover"
                   />
+                  {item.is_before_after && (
+                    <div className="absolute top-2 left-2 bg-brand-blue text-white rounded-full p-1.5">
+                      <Compare className="h-4 w-4" />
+                    </div>
+                  )}
                 </div>
                 <div className="p-2">
                   <h4 className="font-medium truncate">{item.title}</h4>
@@ -171,7 +191,7 @@ const GalleryManager = () => {
                   <Button 
                     variant="destructive" 
                     size="sm"
-                    onClick={() => deleteGalleryItem(item.id, item.image_url)}
+                    onClick={() => deleteGalleryItem(item.id, item)}
                     disabled={loading}
                   >
                     <Trash2 className="h-4 w-4 mr-1" />
@@ -190,13 +210,38 @@ const GalleryManager = () => {
                 <DialogTitle>Gallery Item Details</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
-                <div>
-                  <img 
-                    src={`${supabase.storage.from('gallery').getPublicUrl(selectedItem.image_url).data.publicUrl}`} 
-                    alt={selectedItem.title}
-                    className="w-full h-64 object-contain rounded-md"
-                  />
-                </div>
+                {selectedItem.is_before_after ? (
+                  <>
+                    {/* Before/After Images */}
+                    <div className="space-y-3">
+                      <h4 className="font-medium">Before Image</h4>
+                      {selectedItem.before_image_url && (
+                        <img 
+                          src={`${supabase.storage.from('gallery').getPublicUrl(selectedItem.before_image_url).data.publicUrl}`} 
+                          alt={`Before - ${selectedItem.title}`}
+                          className="w-full h-48 object-contain rounded-md"
+                        />
+                      )}
+                      
+                      <h4 className="font-medium mt-4">After Image</h4>
+                      {selectedItem.after_image_url && (
+                        <img 
+                          src={`${supabase.storage.from('gallery').getPublicUrl(selectedItem.after_image_url).data.publicUrl}`} 
+                          alt={`After - ${selectedItem.title}`}
+                          className="w-full h-48 object-contain rounded-md"
+                        />
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    <img 
+                      src={`${supabase.storage.from('gallery').getPublicUrl(selectedItem.image_url).data.publicUrl}`} 
+                      alt={selectedItem.title}
+                      className="w-full h-64 object-contain rounded-md"
+                    />
+                  </div>
+                )}
                 <div>
                   <h4 className="font-medium">Title</h4>
                   <p>{selectedItem.title}</p>
@@ -222,7 +267,7 @@ const GalleryManager = () => {
                 <div className="flex justify-between mt-6">
                   <Button
                     variant="destructive"
-                    onClick={() => deleteGalleryItem(selectedItem.id, selectedItem.image_url)}
+                    onClick={() => deleteGalleryItem(selectedItem.id, selectedItem)}
                     disabled={loading}
                     className="flex items-center"
                   >

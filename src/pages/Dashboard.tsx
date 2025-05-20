@@ -21,13 +21,24 @@ const Dashboard = () => {
         </TabsList>
         
         <TabsContent value="gallery" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
+          {/* Mobile view: Upload form first */}
+          <div className="block md:hidden">
+            <GalleryUpload />
+          </div>
+          
+          {/* Desktop view: Gallery Manager and Upload form side by side */}
+          <div className="hidden md:grid md:grid-cols-3 md:gap-6">
+            <div className="col-span-2">
               <GalleryManager />
             </div>
             <div>
               <GalleryUpload />
             </div>
+          </div>
+          
+          {/* Mobile view: Gallery Manager below */}
+          <div className="block md:hidden">
+            <GalleryManager />
           </div>
         </TabsContent>
         
