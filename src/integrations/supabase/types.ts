@@ -32,31 +32,40 @@ export type Database = {
       }
       gallery: {
         Row: {
+          after_image_url: string | null
+          before_image_url: string | null
           category: string
           created_at: string
           description: string | null
           id: string
           image_url: string
+          is_before_after: boolean | null
           service_id: string | null
           title: string
           updated_at: string
         }
         Insert: {
+          after_image_url?: string | null
+          before_image_url?: string | null
           category: string
           created_at?: string
           description?: string | null
           id?: string
           image_url: string
+          is_before_after?: boolean | null
           service_id?: string | null
           title: string
           updated_at?: string
         }
         Update: {
+          after_image_url?: string | null
+          before_image_url?: string | null
           category?: string
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string
+          is_before_after?: boolean | null
           service_id?: string | null
           title?: string
           updated_at?: string

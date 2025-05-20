@@ -11,6 +11,9 @@ interface GalleryItem {
   category: string;
   description: string;
   service: string | null;
+  isBeforeAfter: boolean;
+  beforeImageUrl?: string | null;
+  afterImageUrl?: string | null;
 }
 
 interface Service {
@@ -20,8 +23,17 @@ interface Service {
   description: string;
 }
 
+interface BeforeAfterItem {
+  id: string;
+  title: string;
+  description: string;
+  beforeImageUrl: string;
+  afterImageUrl: string;
+}
+
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [beforeAfterItems, setBeforeAfterItems] = useState<BeforeAfterItem[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -59,18 +71,35 @@ const Gallery = () => {
       
       if (error) throw error;
       
-      const formattedItems = data.map(item => ({
-        id: item.id,
-        title: item.title,
-        description: item.description || "",
-        category: item.category,
-        service: item.services ? item.services.slug : null,
-        imageUrl: item.image_url.startsWith('http') 
-          ? item.image_url 
-          : supabase.storage.from('gallery').getPublicUrl(item.image_url).data.publicUrl
-      }));
+      const beforeAfterItems: BeforeAfterItem[] = [];
+      const galleryItems: GalleryItem[] = [];
       
-      setGalleryItems(formattedItems);
+      data.forEach(item => {
+        if (item.is_before_after && item.before_image_url && item.after_image_url) {
+          beforeAfterItems.push({
+            id: item.id,
+            title: item.title,
+            description: item.description || "",
+            beforeImageUrl: supabase.storage.from('gallery').getPublicUrl(item.before_image_url).data.publicUrl,
+            afterImageUrl: supabase.storage.from('gallery').getPublicUrl(item.after_image_url).data.publicUrl,
+          });
+        } else {
+          galleryItems.push({
+            id: item.id,
+            title: item.title,
+            description: item.description || "",
+            category: item.category,
+            service: item.services ? item.services.slug : null,
+            isBeforeAfter: false,
+            imageUrl: item.image_url.startsWith('http') 
+              ? item.image_url 
+              : supabase.storage.from('gallery').getPublicUrl(item.image_url).data.publicUrl
+          });
+        }
+      });
+      
+      setGalleryItems(galleryItems);
+      setBeforeAfterItems(beforeAfterItems);
     } catch (error: any) {
       console.error("Error fetching gallery:", error);
     } finally {
@@ -127,7 +156,7 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Before/After Showcase - Static content kept the same */}
+      {/* Before/After Showcase */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-12">
@@ -138,67 +167,48 @@ const Gallery = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-              <div className="bg-white p-2 shadow-lg rounded-lg">
-                <div className="relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1580274455191-1c62238fa333?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
-                    alt="Before restoration"
-                    className="rounded w-full h-72 object-cover object-center"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-brand-dark text-white py-2 px-4 rounded-tr">
-                    Before
+            {beforeAfterItems.length > 0 ? (
+              beforeAfterItems.map(item => (
+                <div key={item.id}>
+                  <div className="bg-white p-2 shadow-lg rounded-lg">
+                    <div className="relative">
+                      <img
+                        src={item.beforeImageUrl}
+                        alt={`Before ${item.title}`}
+                        className="rounded w-full h-72 object-cover object-center"
+                      />
+                      <div className="absolute bottom-0 left-0 bg-brand-dark text-white py-2 px-4 rounded-tr">
+                        Before
+                      </div>
+                    </div>
+                    <div className="relative mt-4">
+                      <img
+                        src={item.afterImageUrl}
+                        alt={`After ${item.title}`}
+                        className="rounded w-full h-72 object-cover object-center"
+                      />
+                      <div className="absolute bottom-0 left-0 bg-brand-blue text-white py-2 px-4 rounded-tr">
+                        After
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="font-bold text-xl mb-2">{item.title}</h3>
+                    <p className="text-gray-600">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
-                <div className="relative mt-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1581112606025-6e91da971d20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    alt="After restoration"
-                    className="rounded w-full h-72 object-cover object-center"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-brand-blue text-white py-2 px-4 rounded-tr">
-                    After
-                  </div>
-                </div>
+              ))
+            ) : loading ? (
+              <div className="col-span-2 flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue"></div>
               </div>
-              <div className="mt-4">
-                <h3 className="font-bold text-xl mb-2">Classic Corvette Restoration</h3>
-                <p className="text-gray-600">
-                  Complete body restoration and refinishing on this classic Corvette, bringing it back to showroom condition.
-                </p>
+            ) : (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-gray-500">No before & after examples available yet.</p>
               </div>
-            </div>
-
-            <div>
-              <div className="bg-white p-2 shadow-lg rounded-lg">
-                <div className="relative">
-                  <img
-                    src="https://images.unsplash.com/photo-1634437045339-1cbfbba70e38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1325&q=80"
-                    alt="Before repair"
-                    className="rounded w-full h-72 object-cover object-center"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-brand-dark text-white py-2 px-4 rounded-tr">
-                    Before
-                  </div>
-                </div>
-                <div className="relative mt-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    alt="After repair"
-                    className="rounded w-full h-72 object-cover object-center"
-                  />
-                  <div className="absolute bottom-0 left-0 bg-brand-blue text-white py-2 px-4 rounded-tr">
-                    After
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4">
-                <h3 className="font-bold text-xl mb-2">Collision Damage Repair</h3>
-                <p className="text-gray-600">
-                  Major front-end collision damage repaired and refinished with perfect color matching.
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
