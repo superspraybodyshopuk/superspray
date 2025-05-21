@@ -70,6 +70,11 @@ const DashboardLayout = () => {
     );
   }
 
+  const handleNavClick = (section: string) => {
+    setActiveSection(section);
+    navigate(`/admin#${section}`);
+  };
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Sidebar for larger screens */}
@@ -94,38 +99,34 @@ const DashboardLayout = () => {
               <Home className="mr-3 h-5 w-5" />
               Main Site
             </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("gallery")}
+            <button
+              onClick={() => handleNavClick("gallery")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""}`}
             >
               <Image className="mr-3 h-5 w-5" />
               Gallery Management
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("reviews")}
+            </button>
+            <button
+              onClick={() => handleNavClick("reviews")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""}`}
             >
               <Star className="mr-3 h-5 w-5" />
               Reviews Management
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("analytics")}
+            </button>
+            <button
+              onClick={() => handleNavClick("analytics")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""}`}
             >
               <BarChart className="mr-3 h-5 w-5" />
               Analytics
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("style-guide")}
+            </button>
+            <button
+              onClick={() => handleNavClick("style-guide")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""}`}
             >
               <Palette className="mr-3 h-5 w-5" />
               Style Guide
-            </Link>
+            </button>
             <button
               onClick={handleLogout}
               className="flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"

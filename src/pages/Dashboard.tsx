@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import GalleryUpload from "@/components/GalleryUpload";
 import GalleryManager from "@/components/GalleryManager";
@@ -7,6 +6,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 import StyleGuide from "@/components/StyleGuide";
 import { useLocation } from "react-router-dom";
+
+// Add CSS to hide scrollbars but keep scroll functionality
+const scrollStyles = `
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+`;
 
 const Dashboard = () => {
   const location = useLocation();
@@ -17,6 +28,8 @@ const Dashboard = () => {
     const hash = location.hash.slice(1);
     if (hash) {
       setActiveTab(hash);
+    } else {
+      setActiveTab("gallery"); // Default to gallery if no hash
     }
   }, [location.hash]);
 
@@ -31,7 +44,7 @@ const Dashboard = () => {
                 {/* Before/After Gallery Section moved to left column */}
                 <BeforeAfterGallery />
                 {/* Regular gallery images below Before/After */}
-                <div className="mt-6">
+                <div className="mt-6 hide-scrollbar">
                   <GalleryManager />
                 </div>
               </div>
@@ -46,7 +59,9 @@ const Dashboard = () => {
             <div className="block md:hidden space-y-6">
               <BeforeAfterGallery />
               <GalleryUpload />
-              <GalleryManager />
+              <div className="hide-scrollbar">
+                <GalleryManager />
+              </div>
             </div>
           </div>
         );
@@ -150,6 +165,21 @@ const Dashboard = () => {
         return null;
     }
   };
+
+  // Add the custom styles to the page
+  useEffect(() => {
+    // Create a style element
+    const styleEl = document.createElement('style');
+    // Add the styles to hide the scrollbar
+    styleEl.innerHTML = scrollStyles;
+    // Append it to the document head
+    document.head.appendChild(styleEl);
+
+    // Cleanup on component unmount
+    return () => {
+      document.head.removeChild(styleEl);
+    };
+  }, []);
 
   return (
     <div>
