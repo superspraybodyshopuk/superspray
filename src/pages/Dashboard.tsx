@@ -28,10 +28,10 @@ const Dashboard = () => {
             {/* Desktop view: Gallery content and Upload form side by side */}
             <div className="hidden md:grid md:grid-cols-3 md:gap-6">
               <div className="col-span-2">
-                {/* Before/After Gallery Section */}
+                {/* Before/After Gallery Section moved to left column */}
                 <BeforeAfterGallery />
                 {/* Regular gallery images below Before/After */}
-                <div className="mt-6 overflow-y-auto scrollbar-hide">
+                <div className="mt-6">
                   <GalleryManager />
                 </div>
               </div>
