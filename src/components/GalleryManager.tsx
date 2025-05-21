@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2, Edit, Compare } from "lucide-react";
+import { Trash2, Edit, SplitSquareVertical } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -166,7 +166,7 @@ const GalleryManager = () => {
                   />
                   {item.is_before_after && (
                     <div className="absolute top-2 left-2 bg-brand-blue text-white rounded-full p-1.5">
-                      <Compare className="h-4 w-4" />
+                      <SplitSquareVertical className="h-4 w-4" />
                     </div>
                   )}
                 </div>
