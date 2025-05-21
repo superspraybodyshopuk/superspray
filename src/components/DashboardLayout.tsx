@@ -41,11 +41,6 @@ const DashboardLayout = () => {
     }
   }, [location.hash]);
 
-  const handleSectionClick = (section: string) => {
-    setActiveSection(section);
-    navigate(`/admin#${section}`);
-  };
-
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -99,34 +94,34 @@ const DashboardLayout = () => {
               <Home className="mr-3 h-5 w-5" />
               Main Site
             </Link>
-            <button
-              onClick={() => handleSectionClick("gallery")}
+            <Link
+              to="/admin#gallery"
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""}`}
             >
               <Image className="mr-3 h-5 w-5" />
               Gallery Management
-            </button>
-            <button
-              onClick={() => handleSectionClick("reviews")}
+            </Link>
+            <Link
+              to="/admin#reviews"
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""}`}
             >
               <Star className="mr-3 h-5 w-5" />
               Reviews Management
-            </button>
-            <button
-              onClick={() => handleSectionClick("analytics")}
+            </Link>
+            <Link
+              to="/admin#analytics"
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""}`}
             >
               <BarChart className="mr-3 h-5 w-5" />
               Analytics
-            </button>
-            <button
-              onClick={() => handleSectionClick("style-guide")}
+            </Link>
+            <Link
+              to="/admin#style-guide"
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""}`}
             >
               <Palette className="mr-3 h-5 w-5" />
               Style Guide
-            </button>
+            </Link>
             <button
               onClick={handleLogout}
               className="flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"

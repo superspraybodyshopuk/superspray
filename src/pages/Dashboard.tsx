@@ -15,26 +15,22 @@ const Dashboard = () => {
       case "gallery":
         return (
           <div className="space-y-6">
-            {/* Before/After Gallery Section */}
-            <BeforeAfterGallery />
-            
-            {/* Mobile view: Upload form first */}
-            <div className="block md:hidden">
-              <GalleryUpload />
-            </div>
-            
             {/* Desktop view: Gallery Manager and Upload form side by side */}
             <div className="hidden md:grid md:grid-cols-3 md:gap-6">
               <div className="col-span-2 max-h-[calc(100vh-200px)] overflow-y-auto">
                 <GalleryManager />
               </div>
-              <div className="sticky top-4">
+              <div className="sticky top-4 space-y-6">
+                {/* Before/After Gallery Section moved to the right column */}
+                <BeforeAfterGallery />
                 <GalleryUpload />
               </div>
             </div>
             
-            {/* Mobile view: Gallery Manager below */}
-            <div className="block md:hidden">
+            {/* Mobile view: Upload form first, then Before/After Gallery, then Gallery Manager */}
+            <div className="block md:hidden space-y-6">
+              <GalleryUpload />
+              <BeforeAfterGallery />
               <GalleryManager />
             </div>
           </div>
