@@ -58,6 +58,12 @@ const DashboardLayout = () => {
     }
   };
 
+  // Function to handle sidebar link clicks
+  const handleSectionChange = (section: string) => {
+    setActiveSection(section);
+    navigate(`/admin#${section}`);
+  };
+
   if (isAuthenticated === false) {
     return <Navigate to="/login" replace />;
   }
@@ -94,38 +100,34 @@ const DashboardLayout = () => {
               <Home className="mr-3 h-5 w-5" />
               Main Site
             </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("gallery")}
-              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""}`}
+            <Button
+              onClick={() => handleSectionChange("gallery")}
+              className={`flex w-full items-center justify-start px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""} text-white`}
             >
               <Image className="mr-3 h-5 w-5" />
               Gallery Management
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("reviews")}
-              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""}`}
+            </Button>
+            <Button
+              onClick={() => handleSectionChange("reviews")}
+              className={`flex w-full items-center justify-start px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""} text-white`}
             >
               <Star className="mr-3 h-5 w-5" />
               Reviews Management
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("analytics")}
-              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""}`}
+            </Button>
+            <Button
+              onClick={() => handleSectionChange("analytics")}
+              className={`flex w-full items-center justify-start px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""} text-white`}
             >
               <BarChart className="mr-3 h-5 w-5" />
               Analytics
-            </Link>
-            <Link
-              to="/admin"
-              onClick={() => setActiveSection("style-guide")}
-              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""}`}
+            </Button>
+            <Button
+              onClick={() => handleSectionChange("style-guide")}
+              className={`flex w-full items-center justify-start px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""} text-white`}
             >
               <Palette className="mr-3 h-5 w-5" />
               Style Guide
-            </Link>
+            </Button>
             <button
               onClick={handleLogout}
               className="flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"
