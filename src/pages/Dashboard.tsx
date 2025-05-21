@@ -1,36 +1,51 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GalleryUpload from "@/components/GalleryUpload";
 import GalleryManager from "@/components/GalleryManager";
 import ReviewManager from "@/components/ReviewManager";
 import { Card, CardContent } from "@/components/ui/card";
 import BeforeAfterGallery from "@/components/BeforeAfterGallery";
 import StyleGuide from "@/components/StyleGuide";
+import { useLocation } from "react-router-dom";
 
 const Dashboard = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("gallery");
+
+  useEffect(() => {
+    // Get the hash from the URL (e.g., #gallery, #reviews)
+    const hash = location.hash.slice(1);
+    if (hash) {
+      setActiveTab(hash);
+    }
+  }, [location.hash]);
 
   const renderContent = () => {
     switch (activeTab) {
       case "gallery":
         return (
           <div className="space-y-6">
-            {/* Desktop view: Gallery Manager and Upload form side by side */}
+            {/* Desktop view: Gallery content and Upload form side by side */}
             <div className="hidden md:grid md:grid-cols-3 md:gap-6">
-              <div className="col-span-2 max-h-[calc(100vh-200px)] overflow-y-auto">
-                <GalleryManager />
-              </div>
-              <div className="sticky top-4 space-y-6">
-                {/* Before/After Gallery Section moved to the right column */}
+              <div className="col-span-2">
+                {/* Before/After Gallery Section moved to left column */}
                 <BeforeAfterGallery />
-                <GalleryUpload />
+                {/* Regular gallery images below Before/After */}
+                <div className="mt-6">
+                  <GalleryManager />
+                </div>
+              </div>
+              <div className="relative">
+                <div className="sticky top-4">
+                  <GalleryUpload />
+                </div>
               </div>
             </div>
             
-            {/* Mobile view: Upload form first, then Before/After Gallery, then Gallery Manager */}
+            {/* Mobile view: Before/After Gallery, then Upload form, then Gallery Manager */}
             <div className="block md:hidden space-y-6">
-              <GalleryUpload />
               <BeforeAfterGallery />
+              <GalleryUpload />
               <GalleryManager />
             </div>
           </div>

@@ -95,28 +95,32 @@ const DashboardLayout = () => {
               Main Site
             </Link>
             <Link
-              to="/admin#gallery"
+              to="/admin"
+              onClick={() => setActiveSection("gallery")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""}`}
             >
               <Image className="mr-3 h-5 w-5" />
               Gallery Management
             </Link>
             <Link
-              to="/admin#reviews"
+              to="/admin"
+              onClick={() => setActiveSection("reviews")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""}`}
             >
               <Star className="mr-3 h-5 w-5" />
               Reviews Management
             </Link>
             <Link
-              to="/admin#analytics"
+              to="/admin"
+              onClick={() => setActiveSection("analytics")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""}`}
             >
               <BarChart className="mr-3 h-5 w-5" />
               Analytics
             </Link>
             <Link
-              to="/admin#style-guide"
+              to="/admin"
+              onClick={() => setActiveSection("style-guide")}
               className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""}`}
             >
               <Palette className="mr-3 h-5 w-5" />
