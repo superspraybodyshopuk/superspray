@@ -1,16 +1,21 @@
 
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Home, Image, Star, LogOut } from "lucide-react";
+import { Home, Image, Star, LogOut, BarChart, Palette } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 const DashboardLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+  
+  // Get the current hash or set default to gallery
+  const [activeSection, setActiveSection] = useState<string>("gallery");
 
   useEffect(() => {
     // Set up auth state listener
@@ -28,6 +33,19 @@ const DashboardLayout = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Handle section change when location changes
+  useEffect(() => {
+    const hash = location.hash.slice(1);
+    if (hash) {
+      setActiveSection(hash);
+    }
+  }, [location.hash]);
+
+  const handleSectionClick = (section: string) => {
+    setActiveSection(section);
+    navigate(`/admin#${section}`);
+  };
+
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -35,6 +53,7 @@ const DashboardLayout = () => {
         title: "Logged out",
         description: "You have been successfully logged out.",
       });
+      navigate("/login");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -80,20 +99,34 @@ const DashboardLayout = () => {
               <Home className="mr-3 h-5 w-5" />
               Main Site
             </Link>
-            <Link
-              to="/admin"
-              className="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"
+            <button
+              onClick={() => handleSectionClick("gallery")}
+              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "gallery" ? "bg-gray-700" : ""}`}
             >
               <Image className="mr-3 h-5 w-5" />
               Gallery Management
-            </Link>
-            <Link
-              to="/admin"
-              className="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"
+            </button>
+            <button
+              onClick={() => handleSectionClick("reviews")}
+              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "reviews" ? "bg-gray-700" : ""}`}
             >
               <Star className="mr-3 h-5 w-5" />
               Reviews Management
-            </Link>
+            </button>
+            <button
+              onClick={() => handleSectionClick("analytics")}
+              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "analytics" ? "bg-gray-700" : ""}`}
+            >
+              <BarChart className="mr-3 h-5 w-5" />
+              Analytics
+            </button>
+            <button
+              onClick={() => handleSectionClick("style-guide")}
+              className={`flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors ${activeSection === "style-guide" ? "bg-gray-700" : ""}`}
+            >
+              <Palette className="mr-3 h-5 w-5" />
+              Style Guide
+            </button>
             <button
               onClick={handleLogout}
               className="flex w-full items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors"

@@ -6,12 +6,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -70,6 +74,43 @@ const Login = () => {
       setLoading(false);
     }
   };
+  
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!resetEmail) {
+      toast({
+        title: "Error",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      
+      if (error) throw error;
+      
+      setResetSent(true);
+      toast({
+        title: "Password reset email sent",
+        description: "Check your inbox for a password reset link.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to send password reset email.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (isAuthenticated) {
     return <Navigate to="/admin" replace />;
@@ -85,64 +126,124 @@ const Login = () => {
             className="mx-auto h-20" 
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Admin Login
+            Admin Portal
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Please sign in to access the admin dashboard
-          </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@example.com"
-              />
-            </div>
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
+        
+        <Tabs defaultValue="login" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger value="forgot">Forgot Password</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="login">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <form className="space-y-6" onSubmit={handleLogin}>
+                <div>
+                  <Label htmlFor="email">Email address</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@example.com"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="#" className="font-medium text-brand-blue hover:text-opacity-80">
-                Forgot your password?
-              </a>
+                <Button
+                  type="submit"
+                  className="w-full bg-brand-blue hover:bg-opacity-80"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign in"
+                  )}
+                </Button>
+              </form>
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-600">
+                  Don't have an account?{" "}
+                  <Link to="/signup" className="font-medium text-brand-blue hover:text-opacity-80">
+                    Sign up here
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
+          </TabsContent>
+          
+          <TabsContent value="forgot">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              {resetSent ? (
+                <div className="text-center py-4">
+                  <div className="text-green-500 text-5xl mx-auto mb-4">
+                    ✓
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Reset Email Sent</h3>
+                  <p className="mb-4 text-gray-600">
+                    Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => setResetSent(false)}
+                    className="mt-2"
+                  >
+                    Try again
+                  </Button>
+                </div>
+              ) : (
+                <form className="space-y-6" onSubmit={handlePasswordReset}>
+                  <div>
+                    <Label htmlFor="reset-email">Email address</Label>
+                    <Input
+                      id="reset-email"
+                      name="reset-email"
+                      type="email"
+                      required
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="Enter your email"
+                    />
+                  </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-brand-blue hover:bg-opacity-80"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                Signing in...
-              </>
-            ) : (
-              "Sign in"
-            )}
-          </Button>
-        </form>
+                  <Button
+                    type="submit"
+                    className="w-full bg-brand-blue hover:bg-opacity-80"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      "Send reset link"
+                    )}
+                  </Button>
+                </form>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
