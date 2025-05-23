@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import ReviewForm from "@/components/ReviewForm";
@@ -15,21 +14,12 @@ interface Review {
   images?: string[] | null;
 }
 
-interface Service {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-}
-
 const Reviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchReviews();
-    fetchServices();
   }, []);
 
   const fetchReviews = async () => {
@@ -46,20 +36,6 @@ const Reviews = () => {
       console.error("Error fetching reviews:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchServices = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .order('name');
-      
-      if (error) throw error;
-      setServices(data || []);
-    } catch (error: any) {
-      console.error("Error fetching services:", error);
     }
   };
 
@@ -85,21 +61,8 @@ const Reviews = () => {
               <ReviewForm />
             </div>
             
-            {/* Right Column: Reviews + Services */}
+            {/* Right Column: Reviews only (Services section removed) */}
             <div className="space-y-8">
-              {/* Services Section */}
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-bold mb-4">Our Services</h3>
-                <div className="space-y-4">
-                  {services.map((service) => (
-                    <div key={service.id} className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0">
-                      <h4 className="font-semibold text-lg">{service.name}</h4>
-                      <p className="text-gray-600">{service.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
               {/* Reviews Section - scrollable */}
               <div className="space-y-6">
                 <h3 className="text-xl font-bold">Latest Customer Reviews</h3>

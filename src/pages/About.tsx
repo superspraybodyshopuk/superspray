@@ -51,7 +51,7 @@ const About = () => {
     <>
       <Hero
         title="About SuperSpray"
-        subtitle="Excellence in automotive restoration since 1998"
+        subtitle="Excellence in automotive restoration, delivering unparalleled workmanship and quality without compromise."
       />
 
       <section className="section-padding bg-white">
@@ -60,13 +60,13 @@ const About = () => {
             <div>
               <h2 className="heading-2 text-brand-dark mb-4">Our Story</h2>
               <p className="text-gray-600 mb-4">
-                Founded in 1998 by Robert Johnson, SuperSpray BodyShop began as a small garage with a big vision: to provide the highest quality bodywork repairs and restorations for classic and modern vehicles alike.
+                SuperSpray BodyShop was established with a clear vision: to be a leading destination for expert car restoration and quality vehicle paintwork in Berkshire. Our journey began with an unwavering commitment to delivering superior results, driven by a passion for automotive excellence that permeates every aspect of our work. From our earliest days, the core of SuperSpray BodyShop's history has been built on the principle of "quality without compromise—each and every time," a philosophy that guides our highly skilled technicians in every project.
               </p>
               <p className="text-gray-600 mb-4">
-                Over the past 25 years, we've grown from a two-person operation to a team of skilled technicians, each bringing specialized expertise to our comprehensive range of services.
+                We understand that a vehicle is more than just transportation; it’s an investment and often a prized possession. That's why SuperSpray BodyShop has always focused on precision and excellence, ensuring that from minor repairs to complete resprays, every vehicle receives the meticulous care it deserves. Our growth into a trusted name around Burghfield Common and the wider Reading area stems from this dedication. As a team of experienced car technicians in Berkshire, we've consistently invested in honing our skills and utilising advanced techniques to restore vehicles to their optimal condition.
               </p>
               <p className="text-gray-600">
-                Throughout our growth, we've maintained our commitment to quality craftsmanship, attention to detail, and exceptional customer service. Today, we're proud to be recognized as one of the leading automotive bodywork specialists in the region.
+                Choosing SuperSpray BodyShop means entrusting your vehicle to a facility built on a foundation of delivering outstanding craftsmanship and ensuring your complete satisfaction with a flawless finish.
               </p>
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
@@ -86,22 +86,87 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="heading-2 text-brand-dark mb-4">Our Values</h2>
             <p className="text-lg max-w-2xl mx-auto text-gray-600">
-              The core principles that guide everything we do at SuperSpray BodyShop.
+              The core principles that guide everything we do at SuperSpray BodyShop, ensuring your vehicle receives the exceptional care and attention it deserves.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <div className="mx-auto bg-brand-blue rounded-full p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <value.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{value.title}</h3>
-                  <p className="text-gray-600">{value.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Excellence Card */}
+            <Card className="group hover:shadow-2xl transition-shadow border-0 bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl">
+              <CardContent className="p-8 flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-3 md:flex-col md:items-start md:gap-6">
+                  <span className="flex-shrink-0 flex justify-center md:justify-start w-auto md:w-auto">
+                    {/* SVG Icon: Trophy/Star for Excellence */}
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="24" cy="24" r="24" fill="#2563eb"/>
+                      <path d="M24 14l3.09 6.26L34 21.27l-5 4.87L30.18 34 24 29.77 17.82 34 19 26.14l-5-4.87 6.91-1.01L24 14z" fill="#fff"/>
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-bold text-blue-800 mb-0">Excellence</h3>
+                </div>
+                <div className="h-2" />
+                <p className="text-gray-700">
+                  We are driven by a commitment to achieve perfection in every task we undertake, regardless of its scale. This means consistently aiming for superior results that not only meet but exceed your expectations for quality and finish. "Precision and excellence" are the cornerstones of our operations.
+                </p>
+              </CardContent>
+            </Card>
+            {/* Integrity Card */}
+            <Card className="group hover:shadow-2xl transition-shadow border-0 bg-gradient-to-br from-amber-100 to-amber-50 rounded-2xl">
+              <CardContent className="p-8 flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-3 md:flex-col md:items-start md:gap-6">
+                  <span className="flex-shrink-0 flex justify-center md:justify-start w-auto md:w-auto">
+                    {/* SVG Icon: Handshake for Integrity */}
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="24" cy="24" r="24" fill="#f59e42"/>
+                      <path d="M16 28l8 8 8-8M16 20l8 8 8-8" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-bold text-amber-800 mb-0">Integrity</h3>
+                </div>
+                <div className="h-2" />
+                <p className="text-gray-700">
+                  Building and maintaining your trust is fundamental to our approach. We achieve this through dedicated care for your vehicle, transparent communication throughout the repair process, and an unwavering focus on delivering the highest quality workmanship. We believe in honest assessments and ensuring you are fully informed about the work needed to achieve your desired results.
+                </p>
+              </CardContent>
+            </Card>
+            {/* Reliability Card */}
+            <Card className="group hover:shadow-2xl transition-shadow border-0 bg-gradient-to-br from-green-100 to-green-50 rounded-2xl">
+              <CardContent className="p-8 flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-3 md:flex-col md:items-start md:gap-6">
+                  <span className="flex-shrink-0 flex justify-center md:justify-start w-auto md:w-auto">
+                    {/* SVG Icon: Shield/Check for Reliability */}
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="24" cy="24" r="24" fill="#22c55e"/>
+                      <path d="M34 18l-10 10-4-4" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-bold text-green-800 mb-0">Reliability</h3>
+                </div>
+                <div className="h-2" />
+                <p className="text-gray-700">
+                  Our promise is to deliver "quality without compromise—each and every time." You can rely on SuperSpray BodyShop for consistently flawless and durable finishes, whether it's a minor repair or a complete respray. We stand by the lasting quality of our work, ensuring your vehicle looks its best long after it leaves our workshop.
+                </p>
+              </CardContent>
+            </Card>
+            {/* Expertise Card */}
+            <Card className="group hover:shadow-2xl transition-shadow border-0 bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl">
+              <CardContent className="p-8 flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-3 md:flex-col md:items-start md:gap-6">
+                  <span className="flex-shrink-0 flex justify-center md:justify-start w-auto md:w-auto">
+                    {/* SVG Icon: Lightbulb/Gear for Expertise */}
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="24" cy="24" r="24" fill="#a21caf"/>
+                      <path d="M24 16v8l6 6" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-bold text-purple-800 mb-0">Expertise</h3>
+                </div>
+                <div className="h-2" />
+                <p className="text-gray-700">
+                  With over 28 years of leadership experience in the automotive repair and restoration industry, coupled with our team of highly skilled technicians and experienced professionals, we bring a wealth of knowledge to every project. We are committed to using the latest techniques and cutting-edge technology to ensure your vehicle benefits from the most advanced and effective treatments available.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -112,42 +177,45 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="heading-2 text-brand-dark mb-4">Our Facilities</h2>
             <p className="text-lg max-w-2xl mx-auto text-gray-600">
-              Our state-of-the-art workshop is equipped with the latest technology to deliver exceptional results.
+              Our workshop is equipped with cutting-edge technology and high-quality materials to deliver exceptional vehicle restoration and repair results. We are committed to maintaining a professional environment where precision and quality are paramount in every service we offer.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            {/* Spray Booth */}
+            <div className="rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-blue-50 to-white">
               <img 
                 src="https://images.unsplash.com/photo-1543465077-db45d34b88a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
-                alt="Modern spray booth" 
+                alt="Heated Spray Booth" 
                 className="w-full h-64 object-cover object-center"
               />
               <div className="p-4">
-                <h3 className="font-bold text-lg">Modern Spray Booths</h3>
-                <p className="text-gray-600">Our climate-controlled spray booths ensure flawless finishes every time.</p>
+                <h3 className="font-bold text-lg text-blue-800 mb-2">State-of-the-Art Heated Spray Booth</h3>
+                <p className="text-gray-700">Our facility features a state-of-the-art heated spray booth. This advanced equipment is crucial for achieving a flawless, durable finish for all paintwork, whether it's a minor touch-up or a complete respray. It ensures that all paint finishes are applied to the highest possible standards in a controlled environment, safeguarding the integrity and aesthetics of your vehicle. Your vehicle will be sprayed in this dedicated modern spraybooth.</p>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            {/* Precision Repair */}
+            <div className="rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-green-50 to-white">
               <img 
                 src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" 
-                alt="Diagnostic equipment" 
+                alt="Precision Repair and Painting" 
                 className="w-full h-64 object-cover object-center"
               />
               <div className="p-4">
-                <h3 className="font-bold text-lg">Advanced Diagnostics</h3>
-                <p className="text-gray-600">Computerized systems for precise color matching and damage assessment.</p>
+                <h3 className="font-bold text-lg text-green-800 mb-2">Precision Repair and Painting Environment</h3>
+                <p className="text-gray-700">We utilize the latest techniques for services like complete resprays to achieve a smooth, flawless finish. Our expertly-trained technicians conduct thorough inspections, working with you to identify the work needed and determine the best paint and finish for your vehicle. We use only the highest quality materials for all painting and repair work, ensuring a lasting and superior outcome. This commitment to quality materials and expert application means we can confidently restore your vehicle’s bodywork to its original condition.</p>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            {/* Restoration Bays */}
+            <div className="rounded-lg overflow-hidden shadow-lg bg-gradient-to-br from-purple-50 to-white">
               <img 
                 src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80" 
-                alt="Restoration Workshop" 
+                alt="Restoration and Repair Bays" 
                 className="w-full h-64 object-cover"
               />
               <div className="p-4">
-                <h3 className="font-bold text-lg">Restoration Workshop</h3>
-                <p className="text-gray-600">Specialized tools and equipment for authentic classic car restorations.</p>
+                <h3 className="font-bold text-lg text-purple-800 mb-2">Comprehensive Restoration and Repair Bays</h3>
+                <p className="text-gray-700">Our workshop is equipped to handle a wide range of projects, offering top-quality repairs for all classic and modern cars. We manage everything from minor dings to significant dents and from small repairs to complete restoration projects. Our specialists are experienced professionals who handle each and every project with the utmost care, ensuring your vehicle is restored with precision. We also have the capability for fiber glass repair.</p>
               </div>
             </div>
           </div>

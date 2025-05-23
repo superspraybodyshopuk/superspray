@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -115,7 +114,7 @@ const Gallery = () => {
     <>
       <Hero
         title="Our Work Gallery"
-        subtitle="See the quality of our bodywork repairs and restorations"
+        subtitle="The Proof is in the Perfection: See Our Commitment to Quality  and Attention to Detail  in Every Project."
       />
 
       <section className="section-padding bg-white">
