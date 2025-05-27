@@ -11,7 +11,7 @@ interface HeroProps {
 const Hero = ({ title, subtitle, showButtons = false, isHomepage = false }: HeroProps) => {
   return (
     <div
-      className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[40vh] min-h-[300px]'} flex items-center relative`}
+      className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[60vh] min-h-[400px]'} flex items-center relative`}
       style={!isHomepage ? { paddingTop: '80px' } : {}}
     >
       <img 

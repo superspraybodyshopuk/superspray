@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Twitter } from "lucide-react";
 
@@ -59,7 +58,9 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <Phone className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
-                <span>+44 1234 567890</span>
+                <a href="tel:+447548216937" className="hover:text-brand-blue underline focus:outline-none">
+                  +44 7548 216 937
+                </a>
               </li>
               <li className="flex items-start">
                 <Mail className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
@@ -67,11 +68,11 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
-                <span>123 Car Street, Automotown, AU1 2BC</span>
+                <span>Unit 1, Goddard Farm, Goddards Ln, Sherfield on Loddon, Hook RG27 0EL</span>
               </li>
               <li className="flex items-start">
                 <Clock className="h-5 w-5 mr-3 flex-shrink-0 mt-0.5" />
-                <span>Mon-Fri: 9am - 5pm<br />Sat: 9am - 12pm<br />Sun: Closed</span>
+                <span>Mon-Fri: 8.30am - 5pm<br />Sat: 8.30am - 12pm<br />Sun: Closed</span>
               </li>
             </ul>
           </div>

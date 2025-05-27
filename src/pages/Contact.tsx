@@ -149,11 +149,11 @@ const Contact = () => {
               <div className="bg-gray-50 rounded-lg p-8 shadow-md mb-8">
                 <ul className="space-y-6">
                   <li className="flex items-start">
-                    <Phone className="h-6 w-6 mr-4 text-brand-blue flex-shrink-0 mt-1" />
+                    <Phone className="h-6 w-6 text-brand-blue mr-4 mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg mb-1">Phone</h3>
-                      <p>07548 216 937</p>
-                      <p className="text-sm text-gray-500 mt-1">Mon-Fri: 8:30 am - 5:00 pm</p>
+                      <a href="tel:+447548216937" className="hover:text-brand-blue underline focus:outline-none">+44 7548 216 937</a>
+                      <p className="text-sm text-gray-500 mt-1">Call us during opening hours</p>
                     </div>
                   </li>
                   <li className="flex items-start">
@@ -168,9 +168,7 @@ const Contact = () => {
                     <MapPin className="h-6 w-6 mr-4 text-brand-blue flex-shrink-0 mt-1" />
                     <div>
                       <h3 className="font-bold text-lg mb-1">Address</h3>
-                      <p>123 Car Street</p>
-                      <p>Automotown</p>
-                      <p>AU1 2BC</p>
+                      <p>Unit 1, Goddard Farm, Goddards Ln, Sherfield on Loddon, Hook RG27 0EL</p>
                       <p className="text-sm text-gray-500 mt-1">Free parking available</p>
                     </div>
                   </li>
