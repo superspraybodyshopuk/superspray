@@ -10,7 +10,10 @@ interface HeroProps {
 
 const Hero = ({ title, subtitle, showButtons = false, isHomepage = false }: HeroProps) => {
   return (
-    <div className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[40vh] min-h-[300px]'} flex items-center relative`}> 
+    <div
+      className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[40vh] min-h-[300px]'} flex items-center relative`}
+      style={!isHomepage ? { paddingTop: '80px' } : {}}
+    >
       <img 
         src="/Hero Image.jpg" 
         alt="SuperSpray BodyShop Hero" 
