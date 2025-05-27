@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,6 +38,16 @@ const GalleryUpload = () => {
   useEffect(() => {
     fetchServices();
   }, []);
+
+  // Hide category field and set category based on selected service
+  useEffect(() => {
+    if (serviceId && services.length > 0) {
+      const selectedService = services.find(s => s.id === serviceId);
+      if (selectedService) {
+        setCategory(selectedService.slug);
+      }
+    }
+  }, [serviceId, services]);
 
   const fetchServices = async () => {
     try {
@@ -258,7 +267,6 @@ const GalleryUpload = () => {
               required
             />
           </div>
-          
           <div>
             <Label htmlFor="service">Service *</Label>
             <Select 
@@ -278,25 +286,7 @@ const GalleryUpload = () => {
               </SelectContent>
             </Select>
           </div>
-          
-          <div>
-            <Label htmlFor="category">Category *</Label>
-            <Select 
-              onValueChange={setCategory}
-              value={category}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="restoration">Restoration</SelectItem>
-                <SelectItem value="repair">Repair</SelectItem>
-                <SelectItem value="paintwork">Paintwork</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
+          {/* Category field is now hidden and set automatically */}
           <div>
             <Label htmlFor="description">Description *</Label>
             <Textarea

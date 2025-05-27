@@ -10,13 +10,15 @@ interface HeroProps {
 
 const Hero = ({ title, subtitle, showButtons = false, isHomepage = false }: HeroProps) => {
   return (
-    <div className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[40vh] min-h-[300px]'} flex items-center relative`} style={!isHomepage ? { marginTop: '64px' } : {}}> 
+    <div className={`hero-section ${isHomepage ? 'h-screen min-h-[600px]' : 'h-[40vh] min-h-[300px]'} flex items-center relative`}> 
       <img 
         src="/Hero Image.jpg" 
         alt="SuperSpray BodyShop Hero" 
         className="absolute inset-0 w-full h-full object-cover z-0" 
       />
-      <div className="container-custom relative z-10">
+      {/* Overlay for better text visibility */}
+      <div className="absolute inset-0 bg-black bg-opacity-60 z-10" />
+      <div className="container-custom relative z-20">
         <div className="max-w-3xl text-white">
           <h1 className="heading-1 mb-4 text-shadow">{title}</h1>
           <p className="text-xl md:text-2xl mb-8 text-shadow">{subtitle}</p>
