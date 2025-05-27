@@ -3,8 +3,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://YOUR_NEW_PROJECT_ID.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "YOUR_NEW_ANON_KEY";
+const SUPABASE_URL = "https://YOUR_CLIENT_PROJECT_ID.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "YOUR_CLIENT_ANON_KEY";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
