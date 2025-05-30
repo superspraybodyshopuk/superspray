@@ -145,7 +145,7 @@ const Index = () => {
           {/* Image Content */}
           <div className="flex-1 flex justify-center">
             {/* Replace src with your chosen image path */}
-            <img src="/Hero Image.jpg" alt="Classic Car Restoration" className="rounded-2xl shadow-xl max-w-full h-auto object-cover w-[400px] md:w-[450px] lg:w-[500px]" />
+            <img src="/classic car homepage.png" alt="Classic Car Restoration" className="rounded-2xl shadow-xl max-w-full h-auto object-cover w-[400px] md:w-[450px] lg:w-[500px]" />
           </div>
         </div>
       </section>

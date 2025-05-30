@@ -71,7 +71,7 @@ const About = () => {
             </div>
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1470&q=80" 
+                src="/About Us Image.jpg" 
                 alt="SuperSpray BodyShop workshop" 
                 className="w-full h-[400px] object-cover object-center"
               />

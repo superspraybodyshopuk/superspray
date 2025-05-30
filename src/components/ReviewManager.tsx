@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -200,7 +199,7 @@ const ReviewManager = () => {
                           </Button>
                         </DialogTrigger>
                         {selectedReview && selectedReview.id === review.id && (
-                          <DialogContent className="sm:max-w-[500px]">
+                          <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
                             <DialogHeader>
                               <DialogTitle>Review Details</DialogTitle>
                             </DialogHeader>
