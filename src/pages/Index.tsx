@@ -7,24 +7,29 @@ import { Check, Star, ArrowRight } from "lucide-react";
 const Index = () => {
   const services = [
     {
-      title: "Car Body Repairs",
-      description: "From minor scratches to major collision damage, our skilled technicians restore your vehicle to its pre-accident condition.",
+      title: "Collision Damage Repairs",
+      description: "We expertly tackle everything from minor dings to significant dents. Our team restores your vehicle's bodywork to its original condition with unmatched attention to detail.",
       icon: "🔧",
     },
     {
-      title: "Classic Car Restoration",
-      description: "Revive the glory of your classic vehicle with our comprehensive restoration services tailored for vintage automobiles.",
-      icon: "🚗",
-    },
-    {
-      title: "Paint Services",
-      description: "Our cutting-edge spray booth delivers flawless finishes with color matching services that ensure seamless repairs.",
+      title: "Specialist Paintwork",
+      description: "For those seeking a truly unique touch, our Specialist Paintwork service offers bespoke paintwork services tailored to your vision. We deliver stunning and long-lasting results that will make your vehicle stand out.",
       icon: "🎨",
     },
     {
-      title: "Wheel Repairs",
-      description: "We fix damaged alloy wheels, restoring them to their original condition with expert craftsmanship.",
+      title: "Classic Car Restoration",
+      description: "We provide top-quality repairs and complete restoration services for all classic cars. Our classic car restoration Berkshire team combines a passion for precision with meticulous care, safeguarding the aesthetics and value of your cherished vehicle.",
+      icon: "🚗",
+    },
+    {
+      title: "Alloy Wheel Refurbishment",
+      description: "Restore your alloy wheels to their original glory with our dedicated refurbishment service. We address curb damage, corrosion, and scratches, refinishing them with high-quality coatings for a like-new look.",
       icon: "⚙️",
+    },
+    {
+      title: "Fiberglass Repair",
+      description: "Our expertise also includes professional fiberglass repair. We skillfully address damage to fiberglass components, ensuring structural integrity and a smooth finish ready for perfect paintwork.",
+      icon: "🛠️",
     },
   ];
 
@@ -61,89 +66,148 @@ const Index = () => {
   return (
     <>
       <Hero
-        title="High Quality Bodywork Repairs & Restoration"
-        subtitle="Bringing classic and modern vehicles back to their former glory with expert craftsmanship and attention to detail."
+        title="SuperSpray BodyShop: Masters of Automotive Craftsmanship"
+        subtitle="Experience exceptional restoration, flawless finishes, and our unwavering commitment to quality without compromise—each and every time."
         showButtons={true}
         isHomepage={true}
       />
 
-      {/* Services Section */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="heading-2 text-brand-dark mb-4">Our Services</h2>
-            <p className="text-lg max-w-2xl mx-auto text-gray-600">
-              From minor repairs to full restorations, our expert team provides comprehensive bodywork services for all vehicles.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow flex flex-col">
-                <CardContent className="p-6 flex flex-col flex-1">
-                  <div className="text-4xl mb-4">{service.icon}</div>
-                  <h3 className="heading-3 mb-2">{service.title}</h3>
-                  <p className="text-gray-600 mb-4">{service.description}</p>
-                  <div className="mt-auto">
-                    <Button asChild variant="link" className="p-0">
-                      <Link to="/contact" className="flex items-center text-brand-blue">
-                        Learn more <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About/History Section */}
+      {/* Our Services Section */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="heading-2 text-brand-dark mb-4">Craftsmanship with Over 25 Years Experience</h2>
-              <p className="text-gray-600 mb-6">
-                Founded in 1998, SuperSpray BodyShop has built a reputation for excellence in the automotive restoration industry. Our team of skilled technicians combines traditional craftsmanship with modern techniques to deliver exceptional results.
-              </p>
-              <p className="text-gray-600 mb-6">
-                We take pride in our attention to detail and commitment to quality, ensuring that every vehicle that leaves our workshop meets our high standards.
-              </p>
-              <Button asChild className="bg-brand-blue hover:bg-opacity-80">
-                <Link to="/about">More About Us</Link>
-              </Button>
+          <h2 className="heading-2 text-brand-dark mb-10 text-center">Our Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* First Row: 3 columns */}
+            <div className="group bg-white rounded-2xl shadow-xl p-8 flex flex-col items-start h-full border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:border-brand-blue">
+              <div className="bg-red-100 rounded-full p-3 mb-4">
+                {/* Collision icon: car crash */}
+                <svg className="h-8 w-8 text-red-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 17v-2a4 4 0 014-4h10a4 4 0 014 4v2" /><path d="M7 13l2-2m6 2l-2-2" /><circle cx="12" cy="7" r="4" /></svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-brand-blue">Collision Damage Repairs</h3>
+              <p className="text-gray-700 mb-2">We expertly tackle everything from <span className="font-semibold text-brand-blue/80">"minor dings to significant dents"</span>. Our team restores your vehicle's bodywork to its <span className="font-semibold text-brand-blue/80">"original condition"</span> with <span className="font-semibold text-brand-blue/80">"unmatched attention to detail"</span>.</p>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
-              <img 
-                src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
-                alt="SuperSpray BodyShop workshop" 
-                className="w-full h-[400px] object-cover"
-              />
+            <div className="group bg-white rounded-2xl shadow-xl p-8 flex flex-col items-start h-full border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:border-brand-blue">
+              <div className="bg-yellow-100 rounded-full p-3 mb-4">
+                {/* Paint icon: paint brush */}
+                <svg className="h-8 w-8 text-yellow-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M19 11l-6-6-7 7 6 6 7-7z" /><path d="M14 7l3 3" /></svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-brand-blue">Specialist Paintwork</h3>
+              <p className="text-gray-700 mb-2">For those seeking a truly <span className="font-semibold text-brand-blue/80">"unique touch"</span>, our Specialist Paintwork service offers <span className="font-semibold text-brand-blue/80">"bespoke paintwork services"</span> tailored to your vision. We deliver <span className="font-semibold text-brand-blue/80">"stunning and long-lasting result[s]"</span> that will make your vehicle stand out.</p>
             </div>
+            <div className="group bg-white rounded-2xl shadow-xl p-8 flex flex-col items-start h-full border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:border-brand-blue">
+              <div className="bg-green-100 rounded-full p-3 mb-4">
+                {/* Classic car icon: classic car silhouette */}
+                <svg className="h-8 w-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="5" rx="2" /><path d="M5 16v2a2 2 0 002 2h10a2 2 0 002-2v-2" /><circle cx="7.5" cy="16.5" r="1.5" /><circle cx="16.5" cy="16.5" r="1.5" /></svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-brand-blue">Classic Car Restoration</h3>
+              <p className="text-gray-700 mb-2">We provide <span className="font-semibold text-brand-blue/80">"top-quality repairs"</span> and <span className="font-semibold text-brand-blue/80">"complete restoration"</span> services for <span className="font-semibold text-brand-blue/80">"all classic... cars"</span>. Our <span className="font-semibold text-brand-blue/80">"classic car restoration Berkshire"</span> team combines a <span className="font-semibold text-brand-blue/80">"passion for precision"</span> with meticulous care, safeguarding the aesthetics and value of your cherished vehicle.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            {/* Second Row: 2 columns */}
+            <div className="group bg-white rounded-2xl shadow-xl p-8 flex flex-col items-start h-full border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:border-brand-blue">
+              <div className="bg-blue-100 rounded-full p-3 mb-4">
+                {/* Alloy wheel icon: wheel */}
+                <svg className="h-8 w-8 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="2" /><path d="M12 2v2m0 16v2m10-10h-2M4 12H2m15.07-7.07l-1.42 1.42M6.34 17.66l-1.42 1.42m12.02 0l-1.42-1.42M6.34 6.34L4.92 4.92" /></svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-brand-blue">Alloy Wheel Refurbishment</h3>
+              <p className="text-gray-700 mb-2"><span className="font-semibold text-brand-blue/80">"Restore your alloy wheels to their original glory"</span> with our dedicated refurbishment service. We address <span className="font-semibold text-brand-blue/80">"curb damage, corrosion, and scratches"</span>, refinishing them <span className="font-semibold text-brand-blue/80">"with high-quality coatings for a like-new look"</span>.</p>
+            </div>
+            <div className="group bg-white rounded-2xl shadow-xl p-8 flex flex-col items-start h-full border border-gray-200 hover:shadow-2xl transition-all duration-300 hover:border-brand-blue">
+              <div className="bg-purple-100 rounded-full p-3 mb-4">
+                {/* Fiberglass icon: layers */}
+                <svg className="h-8 w-8 text-purple-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2l10 5-10 5-10-5 10-5zm0 10l10 5-10 5-10-5 10-5z" /></svg>
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-brand-blue">Fiberglass Repair</h3>
+              <p className="text-gray-700 mb-2">Our expertise also includes professional <span className="font-semibold text-brand-blue/80">"Fiber glass repair"</span>. We skillfully address damage to fiberglass components, ensuring structural integrity and a smooth finish ready for perfect paintwork.</p>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <a href="/services" className="inline-block px-8 py-3 rounded-full bg-brand-blue text-white font-semibold shadow-lg hover:bg-brand-dark transition-colors text-lg">See All Services</a>
           </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="section-padding bg-brand-blue text-white">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="heading-2 mb-4">Why Choose SuperSpray BodyShop?</h2>
-            <p className="text-lg max-w-2xl mx-auto">
-              We're committed to providing the highest quality service and results for your vehicle.
+      {/* Craftsmanship/Experience Section */}
+      <section className="section-padding bg-white">
+        <div className="container-custom max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+          {/* Text Content */}
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="heading-2 text-brand-blue mb-6">A Passion for Preservation: Expert Classic Car Restoration</h2>
+            <p className="text-lg text-gray-700 mb-6">
+              At SuperSpray BodyShop, we understand that a classic car is more than just a car—it’s a statement and a cherished investment. For over 28 years, our CEO Jose Manuel's passion for precision and dedication to excellence in vehicle restoration have been the driving force behind our renowned classic car restoration Berkshire services. Our highly skilled technicians approach each project with the utmost care, whether it's intricate body repairs or a complete restoration, always focused on safeguarding the aesthetics and value of your vehicle.
             </p>
+            <p className="text-lg text-gray-700 mb-8">
+              We meticulously blend time-honored craftsmanship with cutting-edge technology, including our state-of-the-art heated spray booth, to achieve historically accurate and flawless, durable finishes. Our unwavering commitment is to delivering quality without compromise—each and every time, ensuring your classic is returned to its best condition, ready to be admired for generations.
+            </p>
+            <a href="/about" className="inline-block px-8 py-3 rounded-full bg-brand-blue text-white font-semibold shadow-lg hover:bg-brand-dark transition-colors text-lg">More About Us</a>
           </div>
+          {/* Image Content */}
+          <div className="flex-1 flex justify-center">
+            {/* Replace src with your chosen image path */}
+            <img src="/Hero Image.jpg" alt="Classic Car Restoration" className="rounded-2xl shadow-xl max-w-full h-auto object-cover w-[400px] md:w-[450px] lg:w-[500px]" />
+          </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="flex items-center">
-                <div className="bg-white rounded-full p-2 mr-4">
-                  <Check className="h-5 w-5 text-brand-blue" />
-                </div>
-                <span className="text-lg">{benefit}</span>
+      {/* Why Choose Us Section */}
+      <section className="section-padding bg-brand-blue">
+        <div className="container-custom max-w-5xl mx-auto">
+          <h2 className="heading-2 text-white mb-4 text-center">Why Choose SuperSpray BodyShop?</h2>
+          <p className="text-lg text-blue-100 mb-10 text-center">
+            We are committed to providing exceptional vehicle restoration and repair services. Here’s why customers trust SuperSpray:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-0">
+            {/* Card 1 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-brand-blue/10 text-brand-blue rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
               </div>
-            ))}
+              <h3 className="font-bold text-lg mb-2">Uncompromising Quality</h3>
+              <p>We firmly believe in delivering quality without compromise—each and every time.</p>
+            </div>
+            {/* Card 2 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-green-100 text-green-600 rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M8 15l4-4 4 4" /></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Skilled Technicians</h3>
+              <p>Our highly skilled technicians are passionate about their work and take great pride in their craft.</p>
+            </div>
+            {/* Card 3 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-yellow-100 text-yellow-600 rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2" /><path d="M7 7V5a5 5 0 0110 0v2" /></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Advanced Heated Spray Booth</h3>
+              <p>All paintwork is completed in our state-of-the-art heated spray booth for optimal results.</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            {/* Card 4 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-pink-100 text-pink-600 rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M8 12l2 2 4-4" /></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Flawless, Durable Finishes</h3>
+              <p>Our processes and technology ensure a flawless, durable finish, maintaining the integrity and aesthetics of your vehicle.</p>
+            </div>
+            {/* Card 5 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-purple-100 text-purple-600 rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 20v-6m0 0l-3 3m3-3l3 3" /></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-2">Meticulous Attention to Detail</h3>
+              <p>We deliver unparalleled workmanship and attention to detail in every project we undertake.</p>
+            </div>
+            {/* Card 6 */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+              <div className="bg-blue-100 text-blue-600 rounded-full p-4 mb-4">
+                <svg className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="5" rx="2" /><circle cx="7.5" cy="16.5" r="1.5" /><circle cx="16.5" cy="16.5" r="1.5" /></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-2">For All Vehicles</h3>
+              <p>We offer top-quality repairs for all classic and modern cars, treating each with the utmost care.</p>
+            </div>
           </div>
         </div>
       </section>
