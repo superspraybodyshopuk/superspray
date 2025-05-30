@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -205,7 +204,7 @@ const GalleryManager = () => {
         
         {selectedItem && (
           <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Gallery Item Details</DialogTitle>
               </DialogHeader>
